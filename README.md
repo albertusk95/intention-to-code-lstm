@@ -31,7 +31,7 @@ Source Code Generation Based On User Intention Using LSTM Networks
 <ul>
   <li><b>Problem Statement (natural language)</b><br/>
     <p>There are various ways to state a problem query in natural language which means they are represented in casual and imprecise specifications. Therefore, it would not be effective if the natural language training data contains all the possible statements. In addition, the number of samples in the training data was also limited and there was a possibility that the new input representation could not be addressed by the trained model since its similarity was not close to the representation in the training data.</p>
-    <p>Therefore, the natural language samples were represented as structured text having template in this form: action object type output. The action part denoted what the user wants to do, such as ‘find’, ‘check’, ‘confirm’, etc. The object part denoted the target of the action, such as ‘min number’, ‘sum of subset’, and so on. The type part denoted the data structure in which the action should be applied to, such as ‘array’, ‘list’, and so on. The output part denoted what should be shown to the user as the result, such as ‘yes no’, ‘number’, and so on. Fig. III.1. depicts the structured format of the training data of the 1 st problem, while Fig. III.2. depicts the structured format of the training data of the 2 nd problem. Based on the used representation of the natural language, this project used these following structured format for every problem type:
+    <p>Therefore, the natural language samples were represented as structured text having template in this form: action object type output. The action part denoted what the user wants to do, such as ‘find’, ‘check’, ‘confirm’, etc. The object part denoted the target of the action, such as ‘min number’, ‘sum of subset’, and so on. The type part denoted the data structure in which the action should be applied to, such as ‘array’, ‘list’, and so on. The output part denoted what should be shown to the user as the result, such as ‘yes no’, ‘number’, and so on. Fig. 1. depicts the structured format of the training data of the 1 st problem, while Fig. 2. depicts the structured format of the training data of the 2 nd problem. Based on the used representation of the natural language, this project used these following structured format for every problem type:
     <ol>
       <li><b>Problem 1</b>: find string position array index</li>
       <li><b>Problem 2</b>: calculate minimum diff array difference</li>
@@ -87,6 +87,361 @@ appropriate words that can be included In the vocabulary and providing a single 
 
 **B. Experiments**
 
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/two_experiments.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 5. Two experiments conducted in the research
+  </p>
+  <br/>
+  <p>The performance of several variants of LSTM networks, such as the Encoder-Decoder, Normal Sequential, and the combination of both of the models was examined via two experiments. Based on Fig. 5., the first experiment examined the performance of the combination of the Encoder-Decoder and the Normal Sequential model, whereas the second experiment examined the performance of the Normal Sequential model only.</p>
+  <p>The Encoder-Decoder model captures the semantic representation of input whereas the Normal Sequential model predicts the next character given some previous characters as the seed. Based on these concepts, the first experiment tried to generate the final source code in which the decoded semantic representation became the seed for the Normal Sequential model, whereas the second experiment tried to generate the final source code in which some characters of a training sample became the seed.</p>
 
+**B.1 Problem Type Classification**
 
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/base_prob_stat.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 6. Base Problem Statement
+  </p>
+  <br/>
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/structured_format.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 7. Structured Format
+  </p>
+  <br/>
+
+**B.2 Experiment 1**
+
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/experiment_1_flow.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 8. General Working Process of the 1st Experiment
+  </p>
+  <br/>
+  <p>
+  The general working process of the 1st experiment is shown in the Fig. 8.. In this experiment, the user gave a problem statement in natural language to the system. Then, the system compared the problem statement with each of the base problem statement which is shown in Fig. 6.. Based on the most similar base problem statement, the system retrieved the representation of user input in structured format. Fig.7. depicts the list of problem statements in their structured format.
+  </p>
+  <p>
+  Since the neural networks only deal with numbers, the next stage was preprocessing the structured text in which the primary goal of the stage was to convert the text representation into numerical format. There were several steps to accomplish the goal, such as reversing the order of words, applying zero padding, converting word into its corresponding index in the vocabulary, and so on. After being preprocessed, each word in the structured text was converted into its index which was in numerical format.
+  </p>
+  <p>
+  Afterwards, the list of index from the preprocessing step became the input for the Encoder-Decoder model. Starting from the Encoder model, it received the list of index as the input sequence and captured the semantic of the sequence. Basically, the output of the Encoder model was an encoded representation of the input sequence which could be seen as the semantic of the user input.
+  </p>
+  <p>
+  Based on the encoded representation, the Decoder model generated some words as the output sequence which was used as the seed. The seed code was not the final source code, but it was used as the initial sequence of words for the Normal Sequential model. By using the seed code, the Normal Sequential model generated the final source code.
+  </p>
+  <br/>
+  
+**B.3 Experiment 2**
+
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/experiment_2_flow.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 9. General Working Process of the 2nd Experiment
+  </p>
+  <br/>
+  <p>
+  The general working process of the 2 nd experiment is shown in the Fig. 9.. In this experiment, the user gave a problem statement in natural language to the system. Then, the system compared the problem statement with each of the base problem statement (shown in Fig. 6.). Based on the most similar base problem statement, the system retrieved the representation of user input in structured format (shown in Fig. 7.).
+  </p>
+  <p>
+  Afterwards, the system searched for a random index starting from the first to last index of the corresponding problem type in the training samples. The list of index for each problem is shown in Fig. 10. The problem type was determined from the selected base problem statement in the previous step.
+  </p>
+  <br/>
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/listofprobidx.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 10. List of minimum and maximum index for each problem
+  </p>
+  <br/>
+  <p>
+  Based on the chosen random index, the system checked whether the length of training sample having that index was less than the length of seed code. If the condition was true, the system added n times of empty space characters in front of the training sample so that it had the same length as the seed code. On the other hand, the system took the first m characters of training sample in which m was the length of seed code. By using the seed code, the Normal Sequential model generated the final source code.
+  </p>
+  <br/>
+  
 ### Results
+
+**Experiment 1 (the Encoder-Decoder and the Normal Sequential Model)**
+
+<p>
+  <b>
+  User input:<br/>
+  A. find the position of uncle johny after sorting<br/>
+  </b>
+  
+  <p>
+  <b>Document similarity section:</b>
+
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_ed_sim_1.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 11. Computing similarity score
+  </p>
+  
+  </p>
+  
+  <br/>
+  
+  <p>
+  <b>Generated code by the Encoder-Decoder model (seed code):</b>
+  
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_ed_seed_1.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 12. Seed code generated by the Encoder-Decoder
+  </p>
+  
+  </p>
+  
+  <br/>
+  
+  <p>
+  <b>Final source code (stored in a file):</b>
+  
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_ed_fin_1.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 13. Final source code
+  </p>
+  
+  </p>
+  
+  <br/>
+</p>
+
+---
+
+<p>
+  <b>
+  User input:<br/>
+  A. compute the minimum diff between two horses<br/>
+  B. find out the number of characters of x which is also resides in y<br/>
+  </b>
+
+  <p>
+  <b>Document similarity section:</b>
+
+  Testing sample A
+
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_ed_sim_2A.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 14. Computing Similarity Score
+  </p>
+  <br/>
+
+  Testing sample B
+
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_ed_sim_2B.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 15. Computing Similarity Score
+  </p>
+  
+  </p>
+  
+  <br/>
+
+  <p>
+  <b>Generated code by the Encoder-Decoder model (seed code):</b>
+
+  Testing sample A
+
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_ed_seed_2A.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 16. Seed code generated by the Encoder-Decoder
+  </p>
+  <br/>
+
+  Testing sample B
+
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_ed_seed_2B.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 17. Seed code generated by the Encoder-Decoder
+  </p>
+  
+  </p>
+  
+  <br/>
+
+  <p>
+  <b>Final source code (stored in a file):</b>
+
+  Testing sample A
+
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_ed_fin_2A.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 18. Final source code
+  </p>
+  <br/>
+  
+  Testing sample B
+
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_ed_fin_2B.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 19. Final source code
+  </p>
+  
+  </p>
+  
+  <br/>
+</p>
+
+<br/>
+
+**Experiment 2 (the Normal Sequential Model)**
+
+<p>
+  <b>
+  User input:
+  A. find the position of uncle johny after sorting
+  </b>
+  
+  <p>
+  <b>Document similarity section:</b>
+
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_exp02_sim_1.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 20. Computing similarity score
+  </p>
+  
+  </p>
+  
+  <br/>
+
+  <p>
+  <b>Seed code:</b>
+  
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_exp02_seed_1.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 21. Seed code generated based on the random index
+  </p>
+  
+  </p>
+  
+  <br/>
+  
+  <p>
+  <b>Final source code (stored in a file):</b>
+  
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_exp02_fin_1.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 22. Final source code
+  </p>
+  
+  </p>
+  
+  <br/>
+</p>
+
+---
+
+<p>
+  <b>
+  User input:
+  A. compute the minimum diff between two horses
+  B. find out the number of characters of x which is also resides in y
+  </b>
+  
+  <p>
+  <b>Document similarity section:</b>
+  
+  Testing sample A
+  
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_exp02_sim_2A.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 23. Computing similarity score
+  </p>
+  <br/>
+  
+  Testing sample B
+  
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_exp02_sim_2B.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 24. Computing similarity score
+  </p>
+  
+  </p>
+  
+  <br/>
+  
+  <p>
+  <b>Seed code:</b>
+  
+  Testing sample A
+  
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_exp02_seed_2A.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 25. Seed code generated based on the random index
+  </p>
+  <br/>
+  
+  Testing sample B
+  
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_exp02_seed_2B.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 26. Seed code generated based on the random index
+  </p>
+  
+  </p>
+  
+  <br/>
+  
+  <p>
+  <b>Final source code:</b>
+  
+  Testing sample A
+  
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_exp02_fin_2A.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 27. Final source code
+  </p>
+  <br/>
+  
+  Testing sample B
+  
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_exp02_fin_2B.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 28. Final source code
+  </p>
+  
+  </p>
+  <br/>
+</p>

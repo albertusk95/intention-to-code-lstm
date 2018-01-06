@@ -668,8 +668,6 @@ These were the specifications of the Encoder-Decoder model training:
 
 ## Conclusion
 
-### Conclusion
-
 <p>
   From the research that has been done about the source code generation based on user intention using LSTM networks, the author concludes that:
 </p>
@@ -718,12 +716,12 @@ on June 24, 2017, from http://ruder.io/optimizing-gradient-descent/
 
 [14] Xi Victoria Lin, Chenglong Wang, Deric Pang, Kevin Vu, Luke Zettlemoyer, and Michael D. Ernst. Program synthesis from natural language using recurrent neural networks. Technical Report UW-CSE-17-03-01, University of Washington Department of Computer Science and Engineering, Seattle, WA, USA, March 2017
 
-[15] ___.(___). _Embedding_. Accessed on June 23, 2017, from https://keras.io/layers/embeddings/
+[15] _\__.(_\__). _Embedding_. Accessed on June 23, 2017, from https://keras.io/layers/embeddings/
 
 [16] __\_. (June 22, 2017). _Softmax function_. Accessed on June 24, 2017, from https://en.wikipedia.org/wiki/Softmax_function
 
-[17] ___. (___). _Usage of loss functions_. Accessed on June 23, 2017, from https://keras.io/losses/
+[17] _\__. (_\__). _Usage of loss functions_. Accessed on June 23, 2017, from https://keras.io/losses/
 
-[18] ___. (___). _Usage of metrics_. Accessed on June 23, 2017, from https://keras.io/metrics/
+[18] _\__. (_\__). _Usage of metrics_. Accessed on June 23, 2017, from https://keras.io/metrics/
 
-[19] ___. (___). _Usage of optimizers_. Accessed on June 24, 2017, from https://keras.io/optimizers/
+[19] _\__. (_\__). _Usage of optimizers_. Accessed on June 24, 2017, from https://keras.io/optimizers/

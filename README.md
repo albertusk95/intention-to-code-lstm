@@ -29,7 +29,8 @@ Source Code Generation Based On User Intention Using LSTM Networks
 **A. Training Samples**
 
 <ul>
-  <li><b>Problem Statement (natural language)</b><br/>
+  <li>
+    <b>Problem Statement (natural language)</b>
     <p>There are various ways to state a problem query in natural language which means they are represented in casual and imprecise specifications. Therefore, it would not be effective if the natural language training data contains all the possible statements. In addition, the number of samples in the training data was also limited and there was a possibility that the new input representation could not be addressed by the trained model since its similarity was not close to the representation in the training data.</p>
     <p>Therefore, the natural language samples were represented as structured text having template in this form: action object type output. The action part denoted what the user wants to do, such as ‘find’, ‘check’, ‘confirm’, etc. The object part denoted the target of the action, such as ‘min number’, ‘sum of subset’, and so on. The type part denoted the data structure in which the action should be applied to, such as ‘array’, ‘list’, and so on. The output part denoted what should be shown to the user as the result, such as ‘yes no’, ‘number’, and so on. Fig. 1. depicts the structured format of the training data of the 1 st problem, while Fig. 2. depicts the structured format of the training data of the 2 nd problem. Based on the used representation of the natural language, this project used these following structured format for every problem type:
     <ol>
@@ -54,7 +55,7 @@ Source Code Generation Based On User Intention Using LSTM Networks
   </p>
   </li>
   
-  <li><b>Source Code</b><br/>
+  <li><b>Source Code</b>
     <p>
       The selected training data were in their original format, which means all the elements in the data, such as space, lower case, upper-case, and indentation were preserved. Each problem type was collected in the separate files which means there were 3 different files containing the corresponsing problem type. The total number of samples for each problem type was 120 in which in this case the total number of training samples were 360.
     </p>
@@ -383,7 +384,6 @@ These were the specifications of the Encoder-Decoder model training:
   <p>
   Based on the chosen random index, the system checked whether the length of training sample having that index was less than the length of seed code. If the condition was true, the system added n times of empty space characters in front of the training sample so that it had the same length as the seed code. On the other hand, the system took the first m characters of training sample in which m was the length of seed code. By using the seed code, the Normal Sequential model generated the final source code.
   </p>
-  <br/>
   
 ### Results
 
@@ -448,7 +448,7 @@ These were the specifications of the Encoder-Decoder model training:
   </b>
 
   <p>
-  <b>Document similarity section:</b>
+  <b>Document similarity section:</b><br/>
 
   Testing sample A
 
@@ -474,7 +474,7 @@ These were the specifications of the Encoder-Decoder model training:
   <br/>
 
   <p>
-  <b>Generated code by the Encoder-Decoder model (seed code):</b>
+  <b>Generated code by the Encoder-Decoder model (seed code):</b><br/>
 
   Testing sample A
 
@@ -500,7 +500,7 @@ These were the specifications of the Encoder-Decoder model training:
   <br/>
 
   <p>
-  <b>Final source code (stored in a file):</b>
+  <b>Final source code (stored in a file):</b><br/>
 
   Testing sample A
 
@@ -589,7 +589,7 @@ These were the specifications of the Encoder-Decoder model training:
   </b>
   
   <p>
-  <b>Document similarity section:</b>
+  <b>Document similarity section:</b><br/>
   
   Testing sample A
   
@@ -615,7 +615,7 @@ These were the specifications of the Encoder-Decoder model training:
   <br/>
   
   <p>
-  <b>Seed code:</b>
+  <b>Seed code:</b><br/>
   
   Testing sample A
   
@@ -641,7 +641,7 @@ These were the specifications of the Encoder-Decoder model training:
   <br/>
   
   <p>
-  <b>Final source code:</b>
+  <b>Final source code:</b><br/>
   
   Testing sample A
   
@@ -665,3 +665,65 @@ These were the specifications of the Encoder-Decoder model training:
   </p>
   <br/>
 </p>
+
+## Conclusion
+
+### Conclusion
+
+<p>
+  From the research that has been done about the source code generation based on user intention using LSTM networks, the author concludes that:
+</p>
+
+<ul>
+  <li>
+    <p>
+      The author has developed an automatic programming system that generates source code based on the natural language input using LSTM networks
+    </p>
+  </li>
+  <li>
+    <p>
+    The performance of several variants of LSTM networks, such as the Encoder-Decoder and Normal Sequential model was examined. The Encoder-Decoder model gave 1.4060 as the final loss value and 61.55% as the final accuracy score. On the other hand, the Normal Sequential model gave 0.2996 as the final loss value and 90,56% as the final accuracy score. Based on the result, the sequence of words in the 2 nd experiment was more coherence than the ones generated in the 1 st experiment. It was caused by the fact that the seed code in the 2 nd experiment was taken directly from the training data, which means that the sequence of characters in the seed code had already been in the structured and right format. On the other hand, the seed code generated by the Encoder-Decoder model was partially structured (does not always give the right sequence of characters)
+    </p>
+  </li>
+</ul>
+
+## References
+
+[1] Bill Chambers. (December 21, 2014). _Basic Statistical NL Part 1 – Jaccard Similarity and TF-IDF_. Accessed on June 26, 2017, from http://billchambers.me/tutorials/2014/12/21/tf-idf-explained-in-python.html
+
+[2] Bill Chambers. (December 22, 2014). _Basic Statistical NLP Part 2 – TF-IDF And Cosine Similarity_. Accessed on June 26, 2017, from http://billchambers.me/tutorials/2014/12/22/cosine-similarity-explained-in-python.html
+
+[3] Christopher Olah. (August 27, 2015). _Understanding LSTM Networks_. Accessed on June 16, 2017, from http://colah.github.io/posts/2015-08-Understanding-LSTMs/
+
+[4] Jahnavi Mahanta. (\_\__). _Keep it simple! How to understand Gradient Descent algorithm_. Accessed on June 19, 2017, from http://www.kdnuggets.com/2017/04/simple-understand-gradient-descent-algorithm.html
+
+[5] Jason Brownlee. (June 20, 2016). _Dropout Regularization in Deep Learning Models With Keras_. Accessed on June 28, 2017, from http://machinelearningmastery.com/dropout-regularization-deep-learning-models-keras/
+
+[6] Jason Brownlee. (May 17, 2017). _How to Use the TimeDistributed Layer for Long Short-Term Memory Networks in Python_. Accessed on June 24, 2017, from http://machinelearningmastery.com/timedistributed-layer-for-long-short-term-memory-networks-in-python/
+
+[7] [Mou et al.2015] Lili Mou, Rui Men, Ge Li, Li Zhang, and Zhi Jin. 2015. On end-to-end program generation from user intention by deep neural networks. _CoRR_, abs/1510.07211
+
+[8] Nassim Ben. (March 13, 2017). _How to use return_sequences option and TimeDistributed layer in Keras_. Accessed on June 24, 2017, from https://stackoverflow.com/questions/42755820/how-to-use-return-sequences-option-and-timedistributed-layer-in-keras
+
+[9] Raschka, Sebastian. 2015. _Python Machine Learning_. Packt Publishing: Birmingham
+
+[10] Roopam Upadhyay. (April 3, 2016). _Intuitive Machine Learning : Gradient Descent Simplified_. Accessed on June 19, 2017, from http://ucanalytics.com/blogs/intuitive-machine-learning-gradient-descent-simplified/
+
+[11] scikit-learn developers. \_\__. _sklearn.feature_extraction.text.TfidfVectorizer_. Accessed on June 26, 2017, from http://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html
+
+[12] Sebastian Ruder. (June 15, 2017). _An overview of gradient descent optimization algorithms_. Accessed
+on June 24, 2017, from http://ruder.io/optimizing-gradient-descent/
+
+[13] The Scipy community. (_\__). _numpy.reshape_. Accessed on June 25, 2017, from 1.10.4/reference/generated/numpy.reshape.html https://docs.scipy.org/doc/numpy-
+
+[14] Xi Victoria Lin, Chenglong Wang, Deric Pang, Kevin Vu, Luke Zettlemoyer, and Michael D. Ernst. Program synthesis from natural language using recurrent neural networks. Technical Report UW-CSE-17-03-01, University of Washington Department of Computer Science and Engineering, Seattle, WA, USA, March 2017
+
+[15] ___.(___). _Embedding_. Accessed on June 23, 2017, from https://keras.io/layers/embeddings/
+
+[16] __\_. (June 22, 2017). _Softmax function_. Accessed on June 24, 2017, from https://en.wikipedia.org/wiki/Softmax_function
+
+[17] ___. (___). _Usage of loss functions_. Accessed on June 23, 2017, from https://keras.io/losses/
+
+[18] ___. (___). _Usage of metrics_. Accessed on June 23, 2017, from https://keras.io/metrics/
+
+[19] ___. (___). _Usage of optimizers_. Accessed on June 24, 2017, from https://keras.io/optimizers/

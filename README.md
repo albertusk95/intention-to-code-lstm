@@ -668,7 +668,7 @@ These were the specifications of the Encoder-Decoder model training:
   <br/>
 </p>
 
-## Conclusion
+## Conclusions
 
 <p>
   From the research that has been done about the source code generation based on user intention using LSTM networks, the author concludes that:

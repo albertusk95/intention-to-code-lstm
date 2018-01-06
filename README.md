@@ -78,7 +78,7 @@ Source Code Generation Based On User Intention Using LSTM Networks
   </p>
   <br/>
   
-**D.3 Experiment 2**
+**A.3 Experiment 2**
 
   <p align="center">
     <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/experiment_2_flow.png?raw=true"/>

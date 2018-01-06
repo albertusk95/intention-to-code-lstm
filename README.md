@@ -2,8 +2,6 @@
 
 _The World of Automatic Programming_
 
-<a href="https://github.com/albertusk95/intention-to-code-lstm">view on GitHub</a>
-
 ## Identification
 
 ### Research Topic

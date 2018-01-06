@@ -1,12 +1,12 @@
 # Source Code Generation Based On User Intention Using LSTM Networks
 
+_The World of Automatic Programming_
+
 ## Identification
 
 ### Research Topic
 
 Source Code Generation Based On User Intention Using LSTM Networks
-
-- _The World of Automatic Programming_ -
 
 ### Current Problems
 
@@ -458,9 +458,10 @@ These were the specifications of the Encoder-Decoder model training:
   <p align="center">
     Fig. 14. Computing Similarity Score
   </p>
+  
   <br/>
 
-  Testing sample B
+  Testing sample B<br/>
 
   <p align="center">
     <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_ed_sim_2B.png?raw=true"/>
@@ -486,7 +487,7 @@ These were the specifications of the Encoder-Decoder model training:
   </p>
   <br/>
 
-  Testing sample B
+  Testing sample B<br/>
 
   <p align="center">
     <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_ed_seed_2B.png?raw=true"/>
@@ -512,7 +513,7 @@ These were the specifications of the Encoder-Decoder model training:
   </p>
   <br/>
   
-  Testing sample B
+  Testing sample B<br/>
 
   <p align="center">
     <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_ed_fin_2B.png?raw=true"/>
@@ -599,9 +600,10 @@ These were the specifications of the Encoder-Decoder model training:
   <p align="center">
     Fig. 23. Computing similarity score
   </p>
+  
   <br/>
   
-  Testing sample B
+  Testing sample B<br/>
   
   <p align="center">
     <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_exp02_sim_2B.png?raw=true"/>
@@ -627,7 +629,7 @@ These were the specifications of the Encoder-Decoder model training:
   </p>
   <br/>
   
-  Testing sample B
+  Testing sample B<br/>
   
   <p align="center">
     <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_exp02_seed_2B.png?raw=true"/>
@@ -653,7 +655,7 @@ These were the specifications of the Encoder-Decoder model training:
   </p>
   <br/>
   
-  Testing sample B
+  Testing sample B<br/>
   
   <p align="center">
     <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/test_exp02_fin_2B.png?raw=true"/>

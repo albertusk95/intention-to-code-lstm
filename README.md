@@ -26,13 +26,94 @@ Source Code Generation Based On User Intention Using LSTM Networks
 
 ### Methodology
 
-**A. Training Samples**
+**A. Experiments**
+
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/two_experiments.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 1. Two experiments conducted in the research
+  </p>
+  <br/>
+  <p>The performance of several variants of LSTM networks, such as the Encoder-Decoder, Normal Sequential, and the combination of both of the models was examined via two experiments. Based on Fig. 1., the first experiment examined the performance of the combination of the Encoder-Decoder and the Normal Sequential model, whereas the second experiment examined the performance of the Normal Sequential model only.</p>
+  <p>The Encoder-Decoder model captures the semantic representation of input whereas the Normal Sequential model predicts the next character given some previous characters as the seed. Based on these concepts, the first experiment tried to generate the final source code in which the decoded semantic representation became the seed for the Normal Sequential model, whereas the second experiment tried to generate the final source code in which some characters of a training sample became the seed.</p>
+
+**A.1 Problem Type Classification**
+
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/base_prob_stat.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 2. Base Problem Statement
+  </p>
+  <br/>
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/structured_format.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 3. Structured Format
+  </p>
+  <br/>
+
+**A.2 Experiment 1**
+
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/experiment_1_flow.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 4. General Working Process of the 1st Experiment
+  </p>
+  <br/>
+  <p>
+  The general working process of the 1st experiment is shown in the Fig. 4.. In this experiment, the user gave a problem statement in natural language to the system. Then, the system compared the problem statement with each of the base problem statement which is shown in Fig. 2.. Based on the most similar base problem statement, the system retrieved the representation of user input in structured format. Fig. 3. depicts the list of problem statements in their structured format.
+  </p>
+  <p>
+  Since the neural networks only deal with numbers, the next stage was preprocessing the structured text in which the primary goal of the stage was to convert the text representation into numerical format. There were several steps to accomplish the goal, such as reversing the order of words, applying zero padding, converting word into its corresponding index in the vocabulary, and so on. After being preprocessed, each word in the structured text was converted into its index which was in numerical format.
+  </p>
+  <p>
+  Afterwards, the list of index from the preprocessing step became the input for the Encoder-Decoder model. Starting from the Encoder model, it received the list of index as the input sequence and captured the semantic of the sequence. Basically, the output of the Encoder model was an encoded representation of the input sequence which could be seen as the semantic of the user input.
+  </p>
+  <p>
+  Based on the encoded representation, the Decoder model generated some words as the output sequence which was used as the seed. The seed code was not the final source code, but it was used as the initial sequence of words for the Normal Sequential model. By using the seed code, the Normal Sequential model generated the final source code.
+  </p>
+  <br/>
+  
+**D.3 Experiment 2**
+
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/experiment_2_flow.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 5. General Working Process of the 2nd Experiment
+  </p>
+  <br/>
+  <p>
+  The general working process of the 2nd experiment is shown in the Fig. 5.. In this experiment, the user gave a problem statement in natural language to the system. Then, the system compared the problem statement with each of the base problem statement (shown in Fig. 2.). Based on the most similar base problem statement, the system retrieved the representation of user input in structured format (shown in Fig. 3.).
+  </p>
+  <p>
+  Afterwards, the system searched for a random index starting from the first to last index of the corresponding problem type in the training samples. The list of index for each problem is shown in Fig. 6. The problem type was determined from the selected base problem statement in the previous step.
+  </p>
+  <br/>
+  <p align="center">
+    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/listofprobidx.png?raw=true"/>
+  </p>
+  <p align="center">
+    Fig. 6. List of minimum and maximum index for each problem
+  </p>
+  <br/>
+  <p>
+  Based on the chosen random index, the system checked whether the length of training sample having that index was less than the length of seed code. If the condition was true, the system added n times of empty space characters in front of the training sample so that it had the same length as the seed code. On the other hand, the system took the first m characters of training sample in which m was the length of seed code. By using the seed code, the Normal Sequential model generated the final source code.
+  </p>
+
+-----
+
+**B. Training Samples**
 
 <ul>
   <li>
     <b>Problem Statement (natural language)</b>
     <p>There are various ways to state a problem query in natural language which means they are represented in casual and imprecise specifications. Therefore, it would not be effective if the natural language training data contains all the possible statements. In addition, the number of samples in the training data was also limited and there was a possibility that the new input representation could not be addressed by the trained model since its similarity was not close to the representation in the training data.</p>
-    <p>Therefore, the natural language samples were represented as structured text having template in this form: action object type output. The action part denoted what the user wants to do, such as ‘find’, ‘check’, ‘confirm’, etc. The object part denoted the target of the action, such as ‘min number’, ‘sum of subset’, and so on. The type part denoted the data structure in which the action should be applied to, such as ‘array’, ‘list’, and so on. The output part denoted what should be shown to the user as the result, such as ‘yes no’, ‘number’, and so on. Fig. 1. depicts the structured format of the training data of the 1 st problem, while Fig. 2. depicts the structured format of the training data of the 2 nd problem. Based on the used representation of the natural language, this project used these following structured format for every problem type:
+    <p>Therefore, the natural language samples were represented as structured text having template in this form: action object type output. The action part denoted what the user wants to do, such as ‘find’, ‘check’, ‘confirm’, etc. The object part denoted the target of the action, such as ‘min number’, ‘sum of subset’, and so on. The type part denoted the data structure in which the action should be applied to, such as ‘array’, ‘list’, and so on. The output part denoted what should be shown to the user as the result, such as ‘yes no’, ‘number’, and so on. Fig. 7. depicts the structured format of the training data of the 1st problem, while Fig. 8. depicts the structured format of the training data of the 2nd problem. Based on the used representation of the natural language, this project used these following structured format for every problem type:
     <ol>
       <li><b>Problem 1</b>: find string position array index</li>
       <li><b>Problem 2</b>: calculate minimum diff array difference</li>
@@ -44,14 +125,14 @@ Source Code Generation Based On User Intention Using LSTM Networks
     <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/nl_samples_1.png?raw=true"/>
   </p>
   <p align="center">
-    Fig.1. Structured format of the training data of the 1st problem
+    Fig. 7. Structured format of the training data of the 1st problem
   </p>
   <br/>
   <p align="center">
     <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/nl_samples_2.png?raw=true"/>
   </p>
   <p align="center">
-    Fig.2. Structured format of the training data of the 2nd problem
+    Fig. 8. Structured format of the training data of the 2nd problem
   </p>
   </li>
   
@@ -66,7 +147,7 @@ Source Code Generation Based On User Intention Using LSTM Networks
       However, this kind of original format was only applied for character level modelling in which the network model received a sequence of characters (one-by-one) in each timestep to predict the next one. Since there was a need to use the word level modelling in the Encoder-Decoder model (the first experiment), the format of the training data was modified because in this case the network model took an input in the form of word instead of character. The training data was modified manually.
     </p>
     <p>
-      To get a better understanding, Fig. 3. and Fig. 4. depict the training samples from the first problem’s type in the original and modified format respectively. In addition, this is an example behind the reason of modifying the training data. Suppose there are 3 samples in the original format, namely print(‘abc’), print(), and print(1). If only these samples format are used, the network model will presume that they are different words and it makes the size of vocabulary become larger since now our vocabulary will contain those 3 words. Moreover, those 3 words are not appropriate enough to become the vocabulary since the possibility for them to exist in the training data with large amount is small (there would be many representation on how to show an output with print command). Even though the exact amount of vocabulary is specified, our vocabulary would contain only the insignificant words with small frequency. Therefore, some modifications are needed in this case, for example separating a sequence of characters into some
+      To get a better understanding, Fig. 9. and Fig. 10. depict the training samples from the first problem’s type in the original and modified format respectively. In addition, this is an example behind the reason of modifying the training data. Suppose there are 3 samples in the original format, namely print(‘abc’), print(), and print(1). If only these samples format are used, the network model will presume that they are different words and it makes the size of vocabulary become larger since now our vocabulary will contain those 3 words. Moreover, those 3 words are not appropriate enough to become the vocabulary since the possibility for them to exist in the training data with large amount is small (there would be many representation on how to show an output with print command). Even though the exact amount of vocabulary is specified, our vocabulary would contain only the insignificant words with small frequency. Therefore, some modifications are needed in this case, for example separating a sequence of characters into some
 appropriate words that can be included In the vocabulary and providing a single space at the end of every line in the training data. After the modification, they would be like this at the end: print ( ‘abc’ ), print ( ), and print ( 1 ). In this case, the network model will recognize print, (, ), abc, and 1 as a part of the vocabulary. As the result, the number of vocabulary increases but it is not a problem since the total number of valid words having large frequency in the training data can be specified, which means the vocabulary will only contain significant words, such as print, (, and ). These significant words are common in Python programming language which means the possibility for them to exist in the training data with large amount is big. In this case, the vocabulary would contain only the significant words which are sorted based on their frequency in the training data (from big to small frequency). For the sake of clarity, this is an example on how the system builds the vocabulary. Suppose the unique words contained in our training data are list, print, for, while, int, range, x, y, and myVarName. Also, the total number of occurrence (frequency) for each word are 30, 25, 29, 30, 20, 15, 2, 3, and 1. After being sorted from the biggest one to the smallest one, we got 30, 30, 29, 25, 20, 15, 3, 2, and 1. If there is a specification stating that the vocabulary only contains 6 words with the biggest frequency, the vocabulary will contain list, while, for, print, int, and range. For the remaining words (x, y, and myVarName), they will be changed with a special token called ‘UNK’ (unknown).
     </p>
     <br/>
@@ -74,23 +155,23 @@ appropriate words that can be included In the vocabulary and providing a single 
       <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/original_code_samples.png?raw=true"/>
     </p>
     <p align="center">
-      Fig.3. Code samples in the original format
+      Fig. 9. Code samples in the original format
     </p>
     <br/>
     <p align="center">
       <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/word_code_samples.png?raw=true"/>
     </p>
     <p align="center">
-      Fig.4. Code samples in the modified format
+      Fig. 10. Code samples in the modified format
     </p>
   </li>
 </ul>
 
 -----
 
-**B. Model Design**
+**C. Model Design**
 
-**B.1 Encoder-Decoder LSTM**
+**C.1 Encoder-Decoder LSTM**
 
 <p>
   Long Short Term Memory (LSTM) is a special type of Recurrent Neural Networks (RNNs). It has a capability to learn the pattern of time series input or in other words it can learn the long term dependencies. One application of LSTM is to build a text generator machine that receives few characters and then predicts the next character one by one in each timestep. To build this kind of machine we can use vanilla LSTM which only uses several layers with specified number of hidden units. In this case, the length of input sample is the same with the length of output sample. Also, the length of all the input samples are the same. The problem comes when the length of input sample is not the same as the length of output sample. Moreover, the condition when the length of all the input samples are not the same must be addressed as well.
@@ -151,7 +232,7 @@ These were the specifications of the Encoder-Decoder model used in the 1st exper
 </ul>
 </p>
 
-**B.2 Normal Sequential LSTM**
+**C.2 Normal Sequential LSTM**
 
 <p>
 This model had simpler working concept than the Encoder-Decoder model. It received 90 characters of source code generated by the Encoder-Decoder model and then generated the final source code. This model used different training samples compared with the Encoder-Decoder model in which it learnt the mapping pattern between the characters in the raw text of source code training data and did not use the raw text of natural language training data.
@@ -189,9 +270,9 @@ This model had simpler working concept than the Encoder-Decoder model. It receiv
 
 -----
 
-**C. Model Training**
+**D. Model Training**
 
-**C.1 Encoder-Decoder LSTM**
+**D.1 Encoder-Decoder LSTM**
 
 <p>
 These were the specifications of the Encoder-Decoder model training:
@@ -237,7 +318,7 @@ These were the specifications of the Encoder-Decoder model training:
   </li>
 </ul>
 
-**C.2 Normal Sequential LSTM**
+**D.2 Normal Sequential LSTM**
 
 <p>
   The applied specifications were the same as ones used in the model training of the Encoder-Decoder model. The difference is only in the 6 th step in which the batch size of this model training was 128.
@@ -305,85 +386,6 @@ These were the specifications of the Encoder-Decoder model training:
 </ul>
 
 -----
-
-**D. Experiments**
-
-  <p align="center">
-    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/two_experiments.png?raw=true"/>
-  </p>
-  <p align="center">
-    Fig. 5. Two experiments conducted in the research
-  </p>
-  <br/>
-  <p>The performance of several variants of LSTM networks, such as the Encoder-Decoder, Normal Sequential, and the combination of both of the models was examined via two experiments. Based on Fig. 5., the first experiment examined the performance of the combination of the Encoder-Decoder and the Normal Sequential model, whereas the second experiment examined the performance of the Normal Sequential model only.</p>
-  <p>The Encoder-Decoder model captures the semantic representation of input whereas the Normal Sequential model predicts the next character given some previous characters as the seed. Based on these concepts, the first experiment tried to generate the final source code in which the decoded semantic representation became the seed for the Normal Sequential model, whereas the second experiment tried to generate the final source code in which some characters of a training sample became the seed.</p>
-
-**D.1 Problem Type Classification**
-
-  <p align="center">
-    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/base_prob_stat.png?raw=true"/>
-  </p>
-  <p align="center">
-    Fig. 6. Base Problem Statement
-  </p>
-  <br/>
-  <p align="center">
-    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/structured_format.png?raw=true"/>
-  </p>
-  <p align="center">
-    Fig. 7. Structured Format
-  </p>
-  <br/>
-
-**D.2 Experiment 1**
-
-  <p align="center">
-    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/experiment_1_flow.png?raw=true"/>
-  </p>
-  <p align="center">
-    Fig. 8. General Working Process of the 1st Experiment
-  </p>
-  <br/>
-  <p>
-  The general working process of the 1st experiment is shown in the Fig. 8.. In this experiment, the user gave a problem statement in natural language to the system. Then, the system compared the problem statement with each of the base problem statement which is shown in Fig. 6.. Based on the most similar base problem statement, the system retrieved the representation of user input in structured format. Fig.7. depicts the list of problem statements in their structured format.
-  </p>
-  <p>
-  Since the neural networks only deal with numbers, the next stage was preprocessing the structured text in which the primary goal of the stage was to convert the text representation into numerical format. There were several steps to accomplish the goal, such as reversing the order of words, applying zero padding, converting word into its corresponding index in the vocabulary, and so on. After being preprocessed, each word in the structured text was converted into its index which was in numerical format.
-  </p>
-  <p>
-  Afterwards, the list of index from the preprocessing step became the input for the Encoder-Decoder model. Starting from the Encoder model, it received the list of index as the input sequence and captured the semantic of the sequence. Basically, the output of the Encoder model was an encoded representation of the input sequence which could be seen as the semantic of the user input.
-  </p>
-  <p>
-  Based on the encoded representation, the Decoder model generated some words as the output sequence which was used as the seed. The seed code was not the final source code, but it was used as the initial sequence of words for the Normal Sequential model. By using the seed code, the Normal Sequential model generated the final source code.
-  </p>
-  <br/>
-  
-**D.3 Experiment 2**
-
-  <p align="center">
-    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/experiment_2_flow.png?raw=true"/>
-  </p>
-  <p align="center">
-    Fig. 9. General Working Process of the 2nd Experiment
-  </p>
-  <br/>
-  <p>
-  The general working process of the 2 nd experiment is shown in the Fig. 9.. In this experiment, the user gave a problem statement in natural language to the system. Then, the system compared the problem statement with each of the base problem statement (shown in Fig. 6.). Based on the most similar base problem statement, the system retrieved the representation of user input in structured format (shown in Fig. 7.).
-  </p>
-  <p>
-  Afterwards, the system searched for a random index starting from the first to last index of the corresponding problem type in the training samples. The list of index for each problem is shown in Fig. 10. The problem type was determined from the selected base problem statement in the previous step.
-  </p>
-  <br/>
-  <p align="center">
-    <img src ="https://github.com/albertusk95/intention-to-code-lstm/blob/master/assets/img/listofprobidx.png?raw=true"/>
-  </p>
-  <p align="center">
-    Fig. 10. List of minimum and maximum index for each problem
-  </p>
-  <br/>
-  <p>
-  Based on the chosen random index, the system checked whether the length of training sample having that index was less than the length of seed code. If the condition was true, the system added n times of empty space characters in front of the training sample so that it had the same length as the seed code. On the other hand, the system took the first m characters of training sample in which m was the length of seed code. By using the seed code, the Normal Sequential model generated the final source code.
-  </p>
   
 ### Results
 

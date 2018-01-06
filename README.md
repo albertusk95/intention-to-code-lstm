@@ -8,7 +8,7 @@ _The World of Automatic Programming_
 
 Source Code Generation Based On User Intention Using LSTM Networks
 
-### Current Problems
+### Main Problems
 
 <ul>
   <li>How to ensure that the user receives the correct source code representing the solution to the problem statement?</li>
@@ -727,3 +727,9 @@ on June 24, 2017, from http://ruder.io/optimizing-gradient-descent/
 [18] _\__. (_\__). _Usage of metrics_. Accessed on June 23, 2017, from https://keras.io/metrics/
 
 [19] _\__. (_\__). _Usage of optimizers_. Accessed on June 24, 2017, from https://keras.io/optimizers/
+
+---
+
+**Albertus Kelvin**<br/>
+**Institut Teknologi Bandung**<br/>
+**2018**<br/>
